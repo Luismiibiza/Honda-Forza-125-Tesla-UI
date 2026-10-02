@@ -1,0 +1,3949 @@
+<!--
+VERSION TESLA
+
+Tesla UI v2 estable Last 1
+
+
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honda Forza 125 V4</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e6cbf">
+
+<style>
+    .calendarioModal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.calendarioContenido{
+    width:95%;
+    max-width:380px;
+    background:#1e293b;
+    border-radius:20px;
+    padding:15px;
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+.calendarioCabecera{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.calendarioCabecera button{
+    width:50px;
+    margin:0;
+}
+
+#tituloCalendario {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.diasSemana{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:4px;
+    text-align:center;
+    margin-bottom:10px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+#diasCalendario{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    grid-template-rows:repeat(6,42px);
+    gap:4px;
+    min-height:272px;
+}
+
+.diaCalendario{
+    height:42px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:10px;
+    background:#334155;
+    cursor:pointer;
+}
+
+.diaVacio{
+    height:42px;
+}
+
+.diaCalendario:hover{
+    background:#0284c7;
+}
+
+.calendarioBotones{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.calendarioBotones button{
+    margin:0;
+}
+:root{
+    --bg:#050b16;
+    --card:#0e1726;
+    --blue:#2b7cff;
+    --text:#ffffff;
+}
+.diaSeleccionado{
+    background:#0284c7 !important;
+    border:2px solid #60a5fa;
+}
+*{
+    box-sizing:border-box;
+}
+body{
+    margin:0;
+    padding:10px;
+    padding-bottom:90px;
+    background:
+radial-gradient(
+circle at top,
+#071f44 0%,
+#050c18 45%,
+#03060d 100%
+);
+    color:white;
+    font-family:
+        system-ui,
+        sans-serif;
+}
+
+
+.card{
+    background:
+    linear-gradient(
+    180deg,
+    rgba(15,25,45,.95),
+    rgba(8,15,28,.95));
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,.07);
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.35);
+
+    padding:20px;
+    margin-bottom:16px;
+}
+
+
+.logo{
+    position:absolute;
+    right:0;
+    bottom:-8px;
+    width:48%;
+    max-width:240px;
+    opacity:1;
+    object-fit:contain;
+    object-position:center bottom;
+    margin:0;
+    border-radius:0;
+    pointer-events:none;
+    filter:drop-shadow(0 14px 20px rgba(0,0,0,.38));
+}
+
+.alert{
+   background:
+linear-gradient(
+180deg,
+rgba(8,25,50,.55),
+rgba(3,12,25,.55)
+);
+    border-radius:14px;
+     box-shadow:
+    0 0 12px rgba(0,140,255,0.05);
+    padding:10px 18px;
+    margin-top:10px;
+   border:1px solid rgba(255,255,255,.015);
+    transition:all .2s ease;
+    line-height:1.2;
+}
+
+.alert:hover{
+    background:rgba(255,255,255,.05);
+}
+.alertAvisos{
+    position:relative;
+    border:1px solid rgba(96,165,250,.25);
+    box-shadow:
+        0 0 20px rgba(96,165,250,.12),
+        0 10px 25px rgba(0,0,0,.25);
+}
+
+
+.resumenItem{
+    position:relative;
+    border:1px solid rgba(255,255,255,.06);
+    box-shadow:0 0 18px rgba(96,165,250,.05);
+}
+.resumenItem::after{
+    content:"›";
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:26px;
+    color:#60a5fa;
+    pointer-events:none;
+}
+.resumenGrid{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+#estadoProductos{
+    text-align:left;
+    line-height:1.8;
+    padding-left:15px;
+}
+.producto{
+    background:
+    linear-gradient(
+        180deg,
+        rgba(15,25,45,.95),
+        rgba(8,15,28,.95)
+    );
+    border-radius:20px;
+    padding:16px;
+    margin-top:12px;
+    border-left:5px solid #22c55e;
+    transition:.25s;
+    border:1px solid rgba(255,255,255,.06);
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.25),
+        0 0 18px rgba(96,165,250,.05);
+}
+.producto strong{
+    display:block;
+    font-size:14px;
+    font-weight:600;
+    color:#ffffff;
+    margin-bottom:8px;
+    letter-spacing:0;
+}
+.producto-verde{
+    border-left:5px solid #22c55e !important;
+}
+
+.producto-amarillo{
+    border-left:5px solid #f59e0b !important;
+}
+
+.producto-rojo{
+    border-left:5px solid #ef4444 !important;
+}
+button{
+    width:100%;
+    padding:14px 18px;
+    margin-top:4px;
+    border:none;
+    border-radius:16px;
+    background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.05),
+rgba(255,255,255,.02));
+    color:white;
+    font-size:15px;
+    font-weight:500;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.08);
+    transition:all .2s ease;
+text-align:left;
+}
+    button:hover{
+    transform:translateY(-1px);
+
+    background:
+    linear-gradient(
+    180deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.04));
+
+}
+    
+.verde{
+    color:#22c55e;
+    font-weight:bold;
+}
+
+.naranja{
+    color:#f59e0b;
+    font-weight:bold;
+}
+
+.rojo{
+    color:#ef4444;
+    font-weight:bold;
+}
+.matriculaMoto{
+    position:absolute;
+    top:14px;
+    right:16px;
+    z-index:2;
+
+    display:flex;
+    width:62px;
+    height:42px;
+
+    background:#f5f5f5;
+    border:1px solid rgba(18,18,18,0.9);
+    border-radius:4px;
+    overflow:hidden;
+
+    box-shadow:0 6px 12px rgba(0,0,0,0.2);
+}
+
+.header .matriculaMoto{
+    right: 18px;
+    top: 12px;
+}
+
+.eu{
+    width:20px;
+    background:#0046ad;
+    color:white;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    font-size:6px;
+    font-weight:bold;
+}
+
+
+.estrellas{
+    font-size:7px;
+    letter-spacing:0px;
+    white-space:nowrap;
+}
+
+.contenidoMatricula{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.numeros{
+    font-size:14px;
+    font-weight:900;
+    color:black;
+    line-height:1;
+    letter-spacing:1px;
+}
+
+.letras{
+    font-size:12px;
+    font-weight:900;
+    color:black;
+    line-height:1;
+    letter-spacing:2px;
+}
+.menuInferior{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#1e293b;
+    backdrop-filter:blur(12px);
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    padding:10px 0;
+    border-top:1px solid rgba(255,255,255,.08);
+    z-index:1000;
+}
+
+.menuBtn{
+    color:white;
+    font-size:11px;
+    text-align:center;
+    cursor:pointer;
+    padding:4px;
+}
+.menuBtn span{
+    display:block;
+    font-size:26px !important;
+    margin-bottom:4px;
+    transition:all .3s ease;
+}
+.menuBtn img{
+    width:26px;
+    height:26px;
+    display:block;
+    margin:0 auto 4px;
+    filter:brightness(0) invert(1);
+}
+.menuBtn.activo{
+    color:#60a5fa;
+    font-weight:bold;
+}
+
+.menuBtn.activo span,
+.menuBtn.activo img{
+    transform:scale(1.15);
+}
+
+.menuBtn.activo img{
+    filter:brightness(0) saturate(100%) invert(54%) sepia(95%) saturate(1800%) hue-rotate(190deg) brightness(103%) contrast(101%) drop-shadow(0 0 8px #60a5fa);
+}
+
+.menuBtn:hover{
+    color:#38bdf8;
+}
+.botonChevron{
+    position:relative;
+}
+
+.botonChevron::after{
+    content:"›";
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:26px;
+    color:#60a5fa;
+    pointer-events:none;
+}
+
+.pantalla{
+    display:none;
+}
+
+#inicio{
+    display:block;
+}
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:
+            translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:
+            translateY(0);
+    }
+}
+   .header{
+    position:relative;
+    overflow:hidden;
+    min-height:220px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(12,22,36,.98),
+        rgba(5,10,18,.98)
+    );
+
+    border-radius:26px;
+
+    padding:16px 150px 16px 18px;
+
+    margin-bottom:18px;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.32);
+
+    text-align:left;
+}
+
+.header::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(90deg, rgba(16,25,39,0.08), rgba(16,25,39,0.02)),
+        radial-gradient(circle at 72% 20%, rgba(78,132,255,.18), transparent 30%);
+    pointer-events:none;
+}
+
+.header h1{
+    position:relative;
+    z-index:1;
+    margin: 12px 0 4px;
+    font-size: clamp(24px, 5.4vw, 30px);
+    line-height: 1;
+    letter-spacing: -0.07em;
+    font-weight: 700;
+    color: #f7fbff;
+    text-shadow: 0 8px 18px rgba(0,0,0,.18);
+    max-width: 190px;
+}
+
+
+button{
+    width:100%;
+    margin-top:8px;
+    padding:14px 18px;
+
+    border:none;
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+    180deg,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.02));
+
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+    transition:.25s;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    text-align:left;
+}
+button:hover{
+    transform:translateY(-1px);
+
+    background:
+    linear-gradient(
+    180deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.04));
+}
+button:active{
+    transform:scale(.97);
+}
+#kmActual{
+    text-align:center;
+    font-size:22px;
+    font-weight:700;
+    color:#60a5fa;
+}
+#ultimoProducto{
+    border-left:5px solid #22c55e;
+}
+
+
+
+
+.barraITV{
+    width:100%;
+    height:6px;
+    background:rgba(255,255,255,.08);
+    border-radius:999px;
+    overflow:hidden;
+    margin-top: 2px;
+    margin-bottom:12px;
+}
+
+#progresoITV{
+    width:0%;
+    height:100%;
+    background:#22c55e;
+    border-radius:20px;
+    transition:1s;
+}
+#progresoAceite{
+    width:0%;
+    height:100%;
+    background:#22c55e;
+    border-radius:20px;
+    transition:1s;
+}
+#progresoCorrea{
+    width:0%;
+    height:100%;
+    background:#22c55e;
+    border-radius:20px;
+    transition:1s;
+}
+#progresoDelantero{
+    width:0%;
+    height:100%;
+    background:#22c55e;
+    border-radius:20px;
+    transition:1s;
+}
+
+#progresoTrasero{
+    width:0%;
+    height:100%;
+    background:#22c55e;
+    border-radius:20px;
+    transition:1s;
+}
+
+#textoITV,
+#textoAceite,
+#textoCorrea,
+#textoDelantero,
+#textoTrasero {
+    margin-left:auto;
+    min-width:42px;
+    text-align:right;
+    font-size:13px;
+    color:#e2e8f0;
+    font-weight:600;
+    letter-spacing:.3px;
+}
+
+    h2{
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:20px;
+    color:#fff;
+}
+
+.kilometrajeActualCabecera{
+    position:relative;
+    z-index:1;
+    width:max-content;
+    padding: 0 24px 0 0;
+    margin: 8px 0 0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    color:#f5f9ff;
+    font:inherit;
+    font-size:18px;
+    font-weight:700;
+    text-align:left;
+    cursor:pointer;
+    letter-spacing:-0.04em;
+    line-height:1.15;
+}
+
+.kilometrajeActualCabecera::after{
+    content:"↻";
+    position:absolute;
+    right:2px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:17px;
+    color:#8cc8ff;
+    pointer-events:none;
+}
+
+.fechaKmCabecera{
+    position:relative;
+    z-index:1;
+    margin-top: 5px;
+    font-size: 11px;
+    color: rgba(216, 227, 242, 0.8);
+    letter-spacing: 0.02em;
+}
+
+.kilometrajeActualCabecera:hover{
+    color:#93c5fd;
+}
+
+.kilometrajeActualCabecera:focus-visible{
+    outline:2px solid #60a5fa;
+    outline-offset:4px;
+}
+
+.edicionMoto{
+    position:relative;
+    z-index:1;
+    margin: 0 0 8px;
+    font-size: 12px;
+    color: rgba(192, 210, 230, 0.8);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: none;
+}
+
+h3{
+    font-size:11px;
+    color:#7f93b7;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-top:16px;
+    margin-bottom:14px;
+    font-weight:600;
+}
+
+    #ajustes .card{
+    overflow:hidden;
+    max-width:900px;
+    padding:12px 16px;
+    margin:0 auto 8px;
+    background:transparent;
+}
+   #ajustes .alert{
+    padding:14px;
+    margin-top:6px;
+    border-radius:24px;
+}
+#ajustes h3{
+    margin-top:8px;
+    margin-bottom:8px;
+    padding-left:12px;
+}
+ #ajustes h2{
+    margin-top:0;
+    margin-bottom:16px;
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+    #nombreMotoMostrar,
+#matriculaMostrar{
+    font-size:18px;
+    font-weight:600;
+}
+   #nombreMotoMostrar,
+#matriculaMostrar{
+    margin-bottom:0;
+}
+
+#matriculaMostrar {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+  
+
+#nombreMotoMostrar strong,
+#matriculaMostrar strong{
+    display:block;
+    font-size:11px;
+    color:#7f93b7;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:6px;
+}
+ .settings-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:4px 12px;
+    cursor:pointer;
+}
+  #ajustes button{
+    position:relative;
+        padding: 9px 14px;
+    padding-right:50px;
+    font-size:14px;
+    background:transparent;
+    border:none;
+    box-shadow:none;
+    border-radius:0;
+    color::#cbd5e1;
+    font-weight:400;    
+    opacity:.85;
+    text-transform:none;
+    letter-spacing:0;
+    min-height:38px;
+white-space:normal;
+line-height:1.4;
+}
+#ajustes button::after{
+    content:"›";
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:26px;
+    color:#60a5fa;
+    pointer-events:none;    
+}
+.label-ajuste{
+    display:block;
+    font-size:12px;
+    letter-spacing:4px;
+    color:rgba(255,255,255,.55);
+    text-transform:uppercase;
+    margin-bottom:8px;
+}
+
+.valor-ajuste{
+    display:block;
+    font-size:18px;
+    font-weight:600;
+    color:#ffffff;
+    line-height:1.1;
+    letter-spacing:.5px;
+    text-shadow:0 0 20px rgba(96,165,250,.18);
+}
+@media (max-width: 600px){
+    body{
+        padding: 12px 12px 92px;
+    }
+
+    .pantalla,
+    #inicio,
+    #limpieza,
+    #mantenimiento,
+    #historial,
+    #ajustes{
+        max-width: 440px;
+        margin: 0 auto;
+    }
+
+    .card{
+        padding: 16px 14px;
+        border-radius: 20px;
+    }
+
+    .header{
+        min-height: 220px;
+        padding: 18px 16px 16px;
+        border-radius: 22px;
+    }
+
+    .header h1{
+        margin: 0 0 8px;
+        font-size: 26px;
+        line-height: 1;
+        max-width: 180px;
+    }
+
+  .edicionMoto{
+    font-size:12px;
+    opacity:.8;
+}
+    .matriculaMoto{
+        width: 56px;
+        height: 38px;
+        top: 12px;
+        right: 12px;
+    }
+
+    .numeros{
+        font-size: 12px;
+    }
+
+    .letras{
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    .logo{
+        width: 48%;
+        right: -8px;
+        bottom: -10px;
+        opacity: 0.8;
+    }
+
+    .kilometrajeActualCabecera{
+        display: inline-block;
+        width: auto;
+        max-width: 100%;
+        padding: 6px 30px 6px 0;
+        font-size: 14px;
+        white-space: normal;
+        line-height: 1.3;
+    }
+
+    .kilometrajeActualCabecera::after{
+        right: 2px;
+        font-size: 20px;
+    }
+
+    h2{
+        font-size: 20px;
+        margin-bottom: 14px;
+    }
+
+    .alert,
+    .producto,
+    button{
+        border-radius: 14px;
+    }
+
+    .alert{
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+
+    .producto{
+        padding: 14px 12px;
+    }
+
+    .producto strong{
+        font-size: 13px;
+    }
+
+    button{
+        font-size: 14px;
+        padding: 12px 14px;
+        line-height: 1.4;
+    }
+
+    #estadoITV,
+    #estadoAceite,
+    #estadoCorrea,
+    #estadoDelantero,
+    #estadoTrasero{
+        font-size: 13px;
+        line-height: 1.3;
+        flex: 1;
+    }
+
+    #textoITV,
+    #textoAceite,
+    #textoCorrea,
+    #textoDelantero,
+    #textoTrasero{
+        font-size: 12px;
+        min-width: 42px;
+        text-align: right;
+    }
+
+    #nombreMotoMostrar,
+    #matriculaMostrar{
+        display:none;
+    }
+
+    .label-ajuste{
+        display:none;
+    }
+
+    #estadoAceite{
+        font-weight:600;
+        display:flex;
+        align-items:center;
+    }
+
+    #heroKm{
+        margin-top:20px;
+        font-size:62px;
+        font-weight:800;
+        color:#ffffff;
+        line-height:1;
+        letter-spacing:-2px;
+        text-shadow:0 0 20px rgba(96,165,250,.20);
+    }
+
+    .menuInferior{
+        padding: 8px 0 10px;
+    }
+
+    .menuBtn{
+        font-size: 10px;
+    }
+
+    .menuBtn span,
+    .menuBtn img{
+        font-size: 22px !important;
+    }
+
+    .menuBtn img{
+        width: 22px;
+        height: 22px;
+    }
+    .item-mantenimiento{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+}
+
+.subtexto{
+    font-size:12px;
+    color:#9aa4b2;
+    margin-top:4px;
+}
+.iconTitulo{
+    width:20px;
+    height:20px;
+    margin-right:8px;
+    vertical-align:-3px;
+
+    stroke:white;
+}
+.iconEstadoTitulo{
+    width:28px;
+    height:28px;
+    margin-right:10px;
+    vertical-align:-6px;
+    filter:brightness(0) invert(1);
+}
+.iconEstado{
+    width:16px;
+    height:16px;
+    margin-right:6px;
+    vertical-align:-2px;
+    filter:brightness(0) invert(1);
+}
+.iconAjustes{
+    width:16px;
+    height:16px;
+    margin-right:12px;
+    vertical-align:-2px;
+    margin-bottom:2px;
+}
+.iconMotoAjustes{
+    width:20px;
+    height:20px;
+    margin-right:22px;
+    vertical-align:-3px;
+    filter:brightness(0) invert(1);
+}
+.iconHistorial{
+    width:13px;
+    height:13px;
+    margin-right:4px;
+    vertical-align:-1px;
+    filter:brightness(0) invert(1);
+}
+#botonNombreMoto{
+    font-size:20px;
+    font-weight:600;
+    color:#ffffff;
+    padding-bottom:4px;
+}
+
+#botonMatricula{
+    font-size:18px;
+    color:#cbd5e1;
+    padding-top:0;
+}
+
+}
+  
+
+    
+</style>
+</head>
+<body> 
+    <div id="calendarioModal" class="calendarioModal">
+    <div class="calendarioContenido">
+
+        <div class="calendarioCabecera">
+            <button id="mesAnterior">◀</button>
+
+            <div id="tituloCalendario">
+                Agosto 2026
+            </div>
+
+            <button id="mesSiguiente">▶</button>
+        </div>
+
+        <div class="diasSemana">
+            <div>L</div>
+            <div>M</div>
+            <div>X</div>
+            <div>J</div>
+            <div>V</div>
+            <div>S</div>
+            <div>D</div>
+        </div>
+
+        <div id="diasCalendario"></div>
+
+        <div class="calendarioBotones">
+            <button id="cancelarCalendario">
+                Cancelar
+            </button>
+
+            <button id="aceptarCalendario">
+                Aceptar
+            </button>
+        </div>
+
+    </div>
+</div>
+ <input
+    type="date"
+    id="selectorFechaPrueba"
+    style="display:none;">   
+<div id="inicio" class="pantalla">
+<div class="header">
+
+    <div class="matriculaMoto">
+
+        <div class="eu">
+            <div class="estrellas">★★★</div>
+            E
+        </div>
+
+        <div class="contenidoMatricula">
+            <div id="matriculaNumeros" class="numeros">
+                0000
+            </div>
+
+            <div id="matriculaLetras" class="letras">
+                AAA
+            </div>
+        </div>
+
+    </div>
+
+    <img
+        src="forza-home.png"
+        alt="Honda Forza 125 V4"
+        class="logo"
+    >
+
+    <h1>Honda Forza 125 V4</h1>
+    <div class="edicionMoto">Ibiza Edition</div>
+    <button
+        id="kilometrajeActualCabecera"
+        class="kilometrajeActualCabecera"
+        onclick="actualizarKilometros()"
+        title="Actualizar kilómetros">
+        Sin registrar
+    </button>
+    <div id="fechaKmCabecera" class="fechaKmCabecera">Actualizado: sin datos</div>
+
+</div>
+
+
+<!--
+<div class="card">
+    <h2>📊 Estado general</h2>
+...
+</div>
+-->
+<!--
+<div class="card">
+    <h2>🏍️ Kilometraje</h2>
+...
+</div>
+-->
+<!--
+<div class="card">
+    <h2>🧴 Productos</h2>
+...
+</div>
+-->
+<!--
+<div class="card">
+    <h2>🛠️ Mantenimiento</h2>
+...
+</div>
+-->
+<!--
+<div class="card">
+...
+Historial
+...
+</div>
+-->
+<div class="card">
+   <h2>
+    <img
+        src="icons/shield-check.svg"
+        class="iconEstadoTitulo"
+        alt="">
+    Avisos
+</h2>
+    <div id="avisosMoto" class="alert alertAvisos">
+    ✅ No hay avisos pendientes
+</div>
+<!--
+<button onclick="abrirCalendario()">
+    📅 Probar calendario
+</button>
+-->
+<!--
+<div
+    id="fechaPruebaCalendario"
+    class="alert"
+>
+    Fecha seleccionada: ninguna
+</div>
+-->
+</div>
+   <div class="card">
+
+  <h2>
+   <h2>
+    <img
+        src="icons/activity.svg"
+        class="iconEstadoTitulo"
+        alt="">
+    Estado de la moto
+</h2>
+
+    <div class="resumenGrid">
+
+       <div
+    id="ultimoProducto"
+    class="alert resumenItem"
+    style="display:none;">
+    🧴 Último producto: Ninguno
+</div>
+
+       <div id="ultimoMantenimiento"
+     style="
+        font-weight:600;
+        margin-bottom:18px;
+     ">
+        </div>
+
+        <div
+    style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+    "
+>
+    <div id="estadoITV">
+        🔴 ITV pendiente
+    </div>
+
+    <div id="textoITV">
+        100%
+    </div>
+</div>
+
+<div class="barraITV">
+    <div id="progresoITV"></div>
+</div>
+<!--
+<hr style="
+border:none;
+height:1px;
+background:rgba(255,255,255,.08);
+margin:20px 0;
+">
+-->
+
+<div
+    style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+        margin-bottom:0px;
+    "
+
+
+>
+    <div id="estadoAceite">
+
+        🛢️ Aceite pendiente
+    </div>
+
+    <div id="textoAceite">
+        100%
+    </div>
+</div>
+
+<div class="barraITV">
+    <div id="progresoAceite"></div>
+</div>
+
+<div
+    style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+        margin-bottom:0px;
+    "
+>
+    <div id="estadoCorrea">
+        ⚙️ Correa CVT pendiente
+    </div>
+
+    <div id="textoCorrea">
+        100%
+    </div>
+</div>
+
+<div class="barraITV">
+    <div id="progresoCorrea"></div>
+</div>
+<div
+    style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+        margin-bottom:0px;
+    "
+>
+    <div id="estadoDelantero">
+        🛞 Neumático delantero
+    </div>
+
+    <div id="textoDelantero">
+        100%
+    </div>
+</div>
+
+<div class="barraITV">
+    <div id="progresoDelantero"></div>
+</div>
+<div
+    style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+        margin-bottom:0px;
+    "
+>
+    <div id="estadoTrasero">
+        🛞 Neumático trasero
+    </div>
+
+    <div id="textoTrasero">
+        100%
+    </div>
+</div>
+
+<div class="barraITV">
+    <div id="progresoTrasero"></div>
+</div>
+
+</div> <!-- resumenGrid -->
+
+</div> <!-- card Estado de la moto -->
+</div> <!-- prueba -->
+<div id="limpieza" class="pantalla">
+     
+<div class="card">
+
+<h2>
+    <img
+        src="icons/pencil-sparkles.svg"
+        class="iconEstadoTitulo"
+        alt="">
+    Productos
+</h2>
+<div class="alert" id="resumenLimpieza">
+    Calculando estado...
+</div>
+<div class="alert" id="ultimoProductoLimpieza">
+    🧴 Último aplicado: Ninguno
+</div>
+<div class="producto producto-verde" id="productoAPC">
+    <strong id="nombreAPC">🧼 Sisbrill 361 APC</strong>
+    <div id="duracionAPCTexto">⏳ Duración: 60 días</div>
+    <div>📍 Plásticos, motor y limpieza general</div>
+    <button onclick="aplicarProducto('APC')">
+        Aplicar
+    </button>    
+
+    <div id="fechaAPC">Sin registros</div>
+</div>
+
+<div class="producto producto-verde" id="productoMaddox">
+    <strong id="nombreMaddox">✨ Maddox Detail</strong>
+    <div id="duracionMaddoxTexto">⏳ Duración: 7 días</div>
+    <div>📍 Acabado rápido y brillo</div>
+    <button onclick="aplicarProducto('Maddox')">Aplicar</button>
+   
+
+    <div id="fechaMaddox">Sin registros</div>
+</div>
+
+<div class="producto producto-verde" id="productoSisbrillCar">
+    <strong id="nombreSisbrillCar">
+        🛡️ Sisbrill Car
+    </strong>
+    <div id="duracionSisbrillCarTexto">⏳ Duración: 30 días</div> 
+     <div>📍 Pintura y carenados</div>           
+       <button onclick="aplicarProducto('SisbrillCar')">
+        Aplicar
+    </button>
+
+    
+
+    <div id="fechaSisbrillCar">
+        Sin registros
+    </div>
+
+</div>
+
+<div class="producto producto-verde" id="productoHidraMate">
+    <strong id="nombreHidraMate">🧴 Hidra Mate & Natural</strong>
+    <div id="duracionHidraMateTexto">⏳ Duración: 30 días</div>
+    <div>📍 Plásticos mate y gomas</div>
+    <button onclick="aplicarProducto('HidraMate')">Aplicar</button>  
+
+    <div id="fechaHidraMate">Sin registros</div>
+</div>
+
+<div class="producto producto-verde" id="productoTurtleWax">
+
+    <strong id="nombreTurtleWax">
+        🏆 Turtle Wax Hybrid
+    </strong>
+    <div id="duracionTurtleWaxTexto">⏳ Duración: 180 días</div>
+    <div>📍 Sellado y protección hidrofóbica</div>
+    <button onclick="aplicarProducto('TurtleWax')">
+        Aplicar
+    </button>
+  
+
+    <div id="fechaTurtleWax">
+        Sin registros
+    </div>
+</div>    
+</div>
+</div>
+<div id="mantenimiento" class="pantalla">
+
+    <div class="card">
+
+        <h2>
+    <img
+        src="icons/wrench.svg"
+        class="iconEstadoTitulo"
+        alt="">
+    Mantenimiento
+</h2>
+
+       <strong>
+    <img
+        src="icons/calendar-days.svg"
+        class="iconTitulo"
+        alt="">
+    ITV
+</strong>
+<br><br>
+
+        <button onclick="realizarMantenimiento('ITV')">
+            Realizado
+        </button>
+
+        <br><br>
+
+       <strong>
+    <img
+        src="icons/droplets.svg"
+        class="iconTitulo"
+        alt="">
+   Aceite
+</strong>
+<br><br>
+
+        <button onclick="realizarMantenimiento('Aceite')">
+            Realizado
+        </button>
+
+        <br><br>
+
+        
+        <strong>
+    <img
+        src="icons/wrench.svg"
+        class="iconTitulo"
+        alt="">
+    Correa CVT
+</strong>
+<br><br>
+
+        <button onclick="realizarMantenimiento('Correa CVT')">
+            Realizado
+        </button>
+
+        <br><br>
+
+        <strong>
+    <img
+        src="icons/disc-3.svg"
+        class="iconTitulo"
+        alt="">
+    Neumaticó delantero
+</strong>
+<br><br>
+
+        <button onclick="realizarMantenimiento('NeumaticoDelantero')">
+            Realizado
+        </button>
+
+        <br><br>
+
+        <strong>
+    <img
+        src="icons/disc-3.svg"
+        class="iconTitulo"
+        alt="">
+    Neumaticó trasero
+</strong>
+<br><br>
+
+        <button onclick="realizarMantenimiento('NeumaticoTrasero')">
+            Realizado
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="alert">
+            <strong>🛠️ Estado mantenimiento</strong>
+            <br><br>
+
+            <div id="estadoMantenimiento"></div>
+        </div>
+
+        <br>
+
+       <button onclick="exportarBackup()">
+    <img
+        src="icons/download.svg"
+        class="iconTitulo"
+        alt="">
+    Exportar Backup
+</button>
+
+       <button onclick="document.getElementById('importarJSON').click()">
+    <img
+        src="icons/upload.svg"
+        class="iconTitulo"
+        alt="">
+    Importar Backup
+</button>
+
+        <input
+            type="file"
+            id="importarJSON"
+            accept=".json"
+            style="display:none"
+            onchange="seleccionarBackup()">
+
+    </div>
+
+</div>
+<div id="historial" class="pantalla">
+
+<div class="card">
+
+ <h2>
+    <img
+        src="icons/rotate-ccw-clock.svg"
+        class="iconEstadoTitulo"
+        alt="">
+    Historial
+</h2>
+
+    <div id="historialPantalla">
+        Sin registros
+    </div>
+
+    <button onclick="limpiarPruebas()">
+        🧹 Limpiar historial de pruebas
+    </button>
+
+</div>
+</div>
+<div id="ajustes" class="pantalla">
+    <div class="card">
+       <h2>
+    <img
+        src="icons/settings.svg"
+        class="iconEstadoTitulo"
+        alt="">
+    Ajustes
+</h2>
+        
+
+
+
+       <button id="botonNombreMoto" onclick="cambiarNombreMoto()">
+    
+    Honda Forza 125
+</button>
+
+<button id="botonMatricula" onclick="cambiarMatricula()">
+    🚘 9414HHF
+</button>
+</div>
+
+<div class="card">
+<h3>⏳ Duración de productos</h3>
+<!--
+<div class="alert">
+    ⏳ Configuración de duración
+    <br><br>
+    🚧 Modifica la duración estimada de cada producto.
+</div>
+-->
+
+<button
+    id="duracionAPCMostrar"    
+    onclick="cambiarDuracionAPC()">
+    🧼 Sisbrill 361 APC
+</button>
+<button
+    id="duracionMaddoxMostrar"
+    onclick="cambiarDuracionMaddox()">
+    ✨ Maddox Detail
+</button>
+<button
+    id="duracionSisbrillCarMostrar"
+    onclick="cambiarDuracionSisbrillCar()">
+    🛡️ Sisbrill Car
+</button>
+<button
+    id="duracionHidraMateMostrar"
+    onclick="cambiarDuracionHidraMate()">
+    🧴 Hidra Mate
+</button>
+<button
+    id="duracionTurtleWaxMostrar"
+    onclick="cambiarDuracionTurtleWax()">
+    🏆 Turtle Wax Hybrid
+</button>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0;">
+    🛠️ Mantenimiento
+</h3>
+
+<button
+    id="kmAceiteMostrar"
+    onclick="cambiarKmAceite()">
+    🛢️ Intervalo aceite
+</button>
+
+<button
+    id="kmCorreaMostrar"
+    onclick="cambiarKmCorrea()">
+    ⚙️ Intervalo correa
+</button>
+
+
+<button
+    id="kmDelanteroMostrar"
+    onclick="cambiarKmDelantero()">
+    🛞 Intervalo neumático delantero
+</button>
+
+<button
+    id="kmTraseroMostrar"
+    onclick="cambiarKmTrasero()">
+    🛞 Intervalo neumático trasero
+</button>
+</div>
+
+<div class="card">
+<h3>🧴 Productos</h3>
+
+<button
+    id="nombreAPCMostrar"
+    onclick="cambiarNombreAPC()">
+    🧼 Sisbrill 361 APC
+</button>
+
+
+<button
+    id="nombreMaddoxMostrar"
+    onclick="cambiarNombreMaddox()">
+    ✨ Maddox Detail
+</button>
+<button
+    id="nombreSisbrillCarMostrar"
+    onclick="cambiarNombreSisbrillCar()">
+    🛡️ Sisbrill Car
+</button>
+<button
+    id="nombreHidraMateMostrar"
+    onclick="cambiarNombreHidraMate()">
+    🧴 Hidra Mate & Natural
+</button>
+<button
+    id="nombreTurtleWaxMostrar"
+    onclick="cambiarNombreTurtleWax()">
+    🏆 Turtle Wax Hybrid
+</button>
+    </div>
+</div>
+
+<script>
+let fechaSeleccionada = null;
+let destinoFecha = null;
+let mesActual =
+    new Date().getMonth();
+
+let anioActual =
+    new Date().getFullYear();
+   function abrirCalendario(){
+    generarCalendario();
+    document.getElementById(
+        "calendarioModal"
+    ).style.display = "flex";
+}
+function cerrarCalendario(){
+    document.getElementById(
+        "calendarioModal"
+    ).style.display = "none";
+}
+document.getElementById(
+    "mesSiguiente"
+).onclick = function(){
+    mesActual++;
+    if(mesActual > 11){
+        mesActual = 0;
+        anioActual++;
+    }
+    generarCalendario();
+};
+document.getElementById(
+    "mesAnterior"
+).onclick = function(){
+    mesActual--;
+    if(mesActual < 0){
+        mesActual = 11;
+        anioActual--;
+    }
+    generarCalendario();
+};
+function generarCalendario(){
+    const hoy = new Date();
+
+const meses = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+];
+document.getElementById(
+    "tituloCalendario"
+).innerHTML =
+    meses[mesActual] +
+    " " +
+    anioActual;
+    hoy.getFullYear();
+    const contenedor =
+        document.getElementById(
+            "diasCalendario"
+        );
+    contenedor.innerHTML = "";
+    const diasMes = new Date(
+    anioActual,
+    mesActual + 1,
+    0
+).getDate();
+let primerDia = new Date(
+    anioActual,
+    mesActual,
+    1
+).getDay();
+primerDia =
+    primerDia === 0
+    ? 6
+    : primerDia - 1;
+    for(let i = 0; i < primerDia; i++){
+    const vacio =
+        document.createElement("div");
+    vacio.className =
+        "diaVacio";
+    contenedor.appendChild(
+        vacio
+    );
+}
+for(let dia = 1; dia <= diasMes; dia++){
+        const celda =
+            document.createElement("div");
+        celda.className =
+            "diaCalendario";
+        celda.innerHTML = dia;
+celda.onclick = function(){
+    document
+        .querySelectorAll(".diaCalendario")
+        .forEach(d => {
+            d.classList.remove(
+                "diaSeleccionado"
+            );
+        });
+    celda.classList.add(
+        "diaSeleccionado"
+    );
+        fechaSeleccionada = dia;
+};
+contenedor.appendChild(
+    celda
+);
+    }
+}
+document.getElementById(
+    "cancelarCalendario"
+).onclick = cerrarCalendario;
+document.getElementById(
+    "aceptarCalendario"
+).onclick = function(){
+    if(fechaSeleccionada === null){
+        alert(
+            "Selecciona un día"
+        );
+        return;
+    }
+    const dia =
+        String(fechaSeleccionada)
+        .padStart(2,"0");
+    const mes =
+        String(mesActual + 1)
+        .padStart(2,"0");
+    const fechaFinal =
+        dia +
+        "/" +
+        mes +
+        "/" +
+        anioActual;
+  window.fechaCalendario =
+    fechaFinal;
+localStorage.setItem(
+    "fechaCalendario",
+    fechaFinal
+);
+document.getElementById(
+    "fechaPruebaCalendario"
+).innerHTML =
+    "Fecha seleccionada: " +
+    fechaFinal;
+cerrarCalendario();
+}; 
+function aplicarProducto(nombre){
+if(!confirm(
+    "¿Confirmar aplicación de " +
+    nombre +
+    "?"
+)){
+    return;
+}
+    const hoy =
+        new Date().toLocaleDateString("es-ES");
+
+    localStorage.setItem(
+        "fecha" + nombre,
+        hoy
+    );
+    localStorage.setItem(
+    "ultimoProducto",
+    nombre
+);
+alert(
+    "✅ " +
+    nombre +
+    " aplicado correctamente"
+);
+location.reload();
+}
+function sumarAnios(fechaTexto, anios){
+
+    const partes = fechaTexto.split("/");
+
+    const fecha = new Date(
+        partes[2],
+        partes[1] - 1,
+        partes[0]
+    );
+
+    fecha.setFullYear(
+        fecha.getFullYear() + anios
+    );
+
+    return fecha.toLocaleDateString(
+        "es-ES"
+    );
+}
+function realizarMantenimiento(tipo){
+    if(!confirm(
+    "¿Confirmar mantenimiento de " +
+    tipo +
+    "?"
+)){
+    return;
+}
+    const hoy =
+    new Date().toLocaleDateString("es-ES");
+    let historial =
+    JSON.parse(
+        localStorage.getItem(
+        "historialMantenimientos"
+        ) || "[]"
+    );
+    historial.unshift({
+    tipo: tipo,
+    fecha: hoy,
+    km: null
+});   
+    localStorage.setItem(
+        "historialMantenimientos",
+        JSON.stringify(historial)
+    );
+    localStorage.setItem(
+    "ultimoMantenimiento",
+    tipo
+);
+if(tipo === "ITV"){
+    localStorage.setItem(
+    "fechaITV",
+    localStorage.getItem(
+        "fechaCalendario"
+    ) || hoy
+);
+    localStorage.setItem(
+        "vencimientoITV",
+        "20/05/2030"
+    );
+}
+if(tipo === "Aceite"){
+    const kmActual =
+        Number(
+            localStorage.getItem("kmActual")
+        ) || 0;
+    const kmAceite =
+        Number(
+            prompt(
+                "Kilómetros del cambio de aceite:",
+                kmActual
+            )
+        );
+    const fechaCambioAceite =
+    localStorage.getItem(
+        "fechaCalendario"
+    ) || hoy;
+localStorage.setItem(
+    "fechaAceite",
+    fechaCambioAceite
+);
+historial[0].fecha =
+    fechaCambioAceite;
+    historial[0].km =
+    kmAceite;
+localStorage.setItem(
+    "kmAceite",
+    kmAceite
+);
+}
+if(tipo === "Correa CVT"){
+    const kmActual =
+        Number(
+            localStorage.getItem("kmActual")
+        ) || 0;
+    const kmCorrea =
+        Number(
+            prompt(
+                "Kilómetros del cambio de correa:",
+                kmActual
+            )
+        );
+    const fechaCambioCorrea =
+    localStorage.getItem(
+        "fechaCalendario"
+    ) || hoy;
+localStorage.setItem(
+    "fechaCorrea",
+    fechaCambioCorrea
+);
+historial[0].fecha =
+    fechaCambioCorrea;
+    historial[0].km =
+    kmCorrea;
+localStorage.setItem(
+    "kmCorrea",
+    kmCorrea
+);
+}
+if(tipo === "NeumaticoDelantero"){
+    const kmActual =
+        Number(
+            localStorage.getItem("kmActual")
+        ) || 0;
+    const kmNeumaticoDelantero =
+        Number(
+            prompt(
+                "Kilómetros de montaje del neumático delantero:",
+                kmActual
+            )
+        );
+   const fechaNeumaticoDelantero =
+    localStorage.getItem(
+        "fechaCalendario"
+    ) || hoy;
+localStorage.setItem(
+    "fechaNeumaticoDelantero",
+    fechaNeumaticoDelantero
+);
+historial[0].fecha =
+    fechaNeumaticoDelantero;
+    historial[0].km =
+    kmNeumaticoDelantero;    
+    localStorage.setItem(
+        "kmNeumaticoDelantero",
+        kmNeumaticoDelantero
+    );
+}
+if(tipo === "NeumaticoTrasero"){
+    const kmActual =
+        Number(
+            localStorage.getItem("kmActual")
+        ) || 0;
+    const kmNeumaticoTrasero =
+        Number(
+            prompt(
+                "Kilómetros de montaje del neumático trasero:",
+                kmActual
+            )
+        );
+    const fechaNeumaticoTrasero =
+    localStorage.getItem(
+        "fechaCalendario"
+    ) || hoy;
+localStorage.setItem(
+    "fechaNeumaticoTrasero",
+    fechaNeumaticoTrasero
+);
+historial[0].fecha =
+    fechaNeumaticoTrasero;
+    historial[0].km =
+    kmNeumaticoTrasero;
+    localStorage.setItem(
+        "kmNeumaticoTrasero",
+        kmNeumaticoTrasero
+    );
+}
+localStorage.setItem(
+    "historialMantenimientos",
+    JSON.stringify(historial)
+);
+alert(
+    "✅ " +
+    tipo +
+    " registrado correctamente"
+);
+location.reload();  
+}  
+function mostrarHistorial(){
+    const historial =
+        JSON.parse(
+            localStorage.getItem(
+                "historialMantenimientos"
+            ) || "[]"
+        );
+    let html = "";
+    historial.forEach(item => {
+        let icono = "🛠️";
+        let nombre = item.tipo;
+        if(item.tipo === "Aceite"){
+            icono = "🛢️";
+            nombre = "Aceite";
+        }
+        if(item.tipo === "ITV"){
+            icono = "🚦";
+            nombre = "ITV";
+        }
+        if(item.tipo === "Correa CVT"){
+            icono = "⚙️";
+            nombre = "Correa CVT";
+        }
+        if(item.tipo === "NeumaticoDelantero"){
+            icono = "🛞";
+            nombre = "Neumático delantero";
+        }
+        if(item.tipo === "NeumaticoTrasero"){
+            icono = "🛞";
+            nombre = "Neumático trasero";
+        }
+     html += `
+<div class="alert">
+    ${icono} ${nombre}<br>
+    📅 ${item.fecha}
+    ${item.km ? "<br><img src='icons/gauge.svg' class='iconTitulo' alt='Kilómetros'>" + item.km + " km" : ""}
+</div>`;
+    });
+    if(html === ""){
+        html = "Sin registros";
+    }
+    const historialMant =
+        document.getElementById(
+            "historialMantenimientos"
+        );
+    if(historialMant){
+        historialMant.innerHTML = html;
+    }
+    const historialPantalla =
+        document.getElementById(
+            "historialPantalla"
+        );
+    if(historialPantalla){
+        historialPantalla.innerHTML = html;
+    }
+}
+function exportarBackup(){
+    const backup = {
+        version: "6.5",
+        fecha: new Date().toISOString(),
+        datos: {...localStorage}
+    };
+    const blob = new Blob(
+        [JSON.stringify(backup, null, 2)],
+        {type:"application/json"}
+    );
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download =
+        "forza-v65-backup.json";
+    a.click();
+}
+function seleccionarBackup(){
+    const archivo =
+        document.getElementById(
+            "importarJSON"
+        ).files[0];
+
+    if(!archivo){
+        alert("Selecciona un backup");
+        return;
+    }
+    const lector =
+        new FileReader();
+
+    lector.onload = function(e){
+        try{
+            const backup =
+                JSON.parse(
+                    e.target.result
+                );
+            if(!backup.datos){
+                alert(
+                    "Backup incompatible"
+                );
+                return;
+            }
+            localStorage.clear();
+            Object.keys(
+                backup.datos
+            ).forEach(key => {
+                localStorage.setItem(
+                    key,
+                    backup.datos[key]
+                );
+            });
+            alert(
+                "Backup restaurado correctamente"
+            );
+            location.reload();
+        }catch(error){
+            alert(
+                "Error al restaurar backup"
+            );
+        }
+    };
+    lector.readAsText(archivo);
+}
+function diasTranscurridos(fechaTexto){
+    if(!fechaTexto) return null;
+    const partes = fechaTexto.split("/");
+    const fecha = new Date(
+        partes[2],
+        partes[1] - 1,
+        partes[0]
+    );
+    const hoy = new Date();
+    const diferencia =
+        hoy - fecha;
+    return Math.floor(
+        diferencia /
+        (1000 * 60 * 60 * 24)
+    );
+}
+function estadoVencimiento(fechaTexto, frecuencia){
+    const dias =
+        diasTranscurridos(fechaTexto);
+    if(dias === null){
+        return "⚪ Sin aplicar";
+    }
+    const restantes =
+        frecuencia - dias;
+    if(restantes < 0){
+        return "🔴 Vencido";
+    }
+    if(restantes <= 7){
+        return "🟡 Vence en " + restantes + " días";
+    }
+    return "🟢 Al día";
+}
+   function calcularEstado(fechaProximo){
+    
+    if(!fechaProximo){
+        return {
+            diasRestantes: null,
+            estado: "sin-datos"
+        };
+    }
+    const partes = fechaProximo.split("/");
+    const vencimiento = new Date(
+        partes[2],
+        partes[1] - 1,
+        partes[0]
+    );
+    const hoy = new Date();
+    const diferencia = Math.floor(
+        (vencimiento - hoy) /
+        (1000 * 60 * 60 * 24)
+    );
+    let estado = "ok";
+    if(diferencia <= 30){
+        estado = "aviso";
+    }
+    if(diferencia <= 0){
+        estado = "vencido";
+    }
+    return {
+        diasRestantes: diferencia,
+        estado
+    };
+    }
+    function diasRestantes(fechaTexto){
+    if(!fechaTexto) return null;
+    const partes = fechaTexto.split("/");
+    const fecha = new Date(
+        partes[2],
+        partes[1] - 1,
+        partes[0]
+    );
+    const hoy = new Date();
+    return Math.floor(
+        (fecha - hoy) /
+        (1000 * 60 * 60 * 24)
+    );
+}
+    function obtenerClaseDias(dias){
+    if(dias === null){
+        return "verde";
+    }
+    if(dias <= 30){
+        return "rojo";
+    }
+    if(dias <= 60){
+        return "naranja";
+    }
+    return "verde";
+}
+function obtenerEstadoVisual(porcentaje){
+    if(porcentaje <= 30){
+        return "🔴 Vencido";
+    }
+    if(porcentaje <= 60){
+        return "🟡 Próximo a renovar";
+    }
+    return "🟢 Al día";
+}
+function limpiarPruebas(){
+    if(!confirm(
+        "¿Dejar solo el último registro de ITV, Aceite y Correa?"
+    )){
+        return;
+    }
+    const historial = JSON.parse(
+        localStorage.getItem(
+            "historialMantenimientos"
+        ) || "[]"
+    );
+    const nuevoHistorial = [];
+    const tiposGuardados = [];
+    historial.forEach(item => {
+    if(!tiposGuardados.includes(item.tipo)){
+        nuevoHistorial.push(item);
+        tiposGuardados.push(item.tipo);
+    }
+});
+const historialFiltrado =
+    nuevoHistorial.filter(
+        item => item.tipo !== "Neumaticos"
+    );
+localStorage.setItem(
+    "historialMantenimientos",
+    JSON.stringify(historialFiltrado)
+);
+    location.reload();
+}
+function cambiarNombreMoto(){
+    const nombre = prompt(
+        "Introduce el nombre de la moto:",
+        localStorage.getItem("nombreMoto") || "Honda Forza 125"
+    );
+    if(!nombre){
+        return;
+    }
+    localStorage.setItem(
+        "nombreMoto",
+        nombre
+    );
+    location.reload();
+}
+function cambiarNombreAPC(){
+    const nuevoNombre = prompt(
+        "Nombre del producto:",
+        localStorage.getItem("nombreAPC") || "Sisbrill 361 APC"
+    );
+    if(!nuevoNombre){
+        return;
+    }
+    localStorage.setItem(
+        "nombreAPC",
+        nuevoNombre
+    );
+    location.reload();
+}
+function cambiarNombreMaddox(){
+    const nuevoNombre = prompt(
+        "Nombre del producto:",
+        localStorage.getItem("nombreMaddox") || "Maddox Detail"
+    );
+    if(!nuevoNombre){
+        return;
+    }
+    localStorage.setItem(
+        "nombreMaddox",
+        nuevoNombre
+    );
+    location.reload();
+}
+function cambiarNombreSisbrillCar(){
+    const nuevoNombre = prompt(
+        "Nombre del producto:",
+        localStorage.getItem("nombreSisbrillCar") || "Sisbrill Car"
+    );
+    if(!nuevoNombre){
+        return;
+    }
+    localStorage.setItem(
+        "nombreSisbrillCar",
+        nuevoNombre
+    );
+    location.reload();
+}
+function cambiarNombreHidraMate(){
+    const nuevoNombre = prompt(
+        "Nombre del producto:",
+        localStorage.getItem("nombreHidraMate") || "Hidra Mate & Natural"
+    );
+    if(!nuevoNombre){
+        return;
+    }
+    localStorage.setItem(
+        "nombreHidraMate",
+        nuevoNombre
+    );
+    location.reload();
+}
+function cambiarNombreTurtleWax(){
+    const nuevoNombre = prompt(
+        "Nombre del producto:",
+        localStorage.getItem("nombreTurtleWax") || "Turtle Wax Hybrid"
+    );
+    if(!nuevoNombre){
+        return;
+    }
+    localStorage.setItem(
+        "nombreTurtleWax",
+        nuevoNombre
+    );
+    location.reload();
+}
+
+function cambiarMatricula(){
+    const matricula = prompt(
+        "Introduce la matrícula:",
+        localStorage.getItem("matriculaMoto") || ""
+    );
+    if(!matricula){
+        return;
+    }
+    localStorage.setItem(
+        "matriculaMoto",
+        matricula.toUpperCase()
+    );
+    location.reload();
+}
+function cambiarDuracionAPC(){
+    const dias = prompt(
+        "Duración del APC en días:",
+        localStorage.getItem("duracionAPC") || "60"
+    );
+    if(!dias){
+        return;
+    }
+    localStorage.setItem(
+        "duracionAPC",
+        dias
+    );
+    location.reload();
+}
+function cambiarDuracionMaddox(){
+    const dias = prompt(
+        "Duración de Maddox en días:",
+        localStorage.getItem("duracionMaddox") || "7"
+    );
+
+    if(!dias){
+        return;
+    }
+
+    localStorage.setItem(
+        "duracionMaddox",
+        dias
+    );
+
+    location.reload();
+}
+function cambiarDuracionSisbrillCar(){
+    const dias = prompt(
+        "Duración de Sisbrill Car en días:",
+        localStorage.getItem("duracionSisbrillCar") || "30"
+    );
+    if(!dias){
+        return;
+    }
+    localStorage.setItem(
+        "duracionSisbrillCar",
+        dias
+    );
+    location.reload();
+}
+function cambiarDuracionHidraMate(){
+    const dias = prompt(
+        "Duración de Hidra Mate en días:",
+        localStorage.getItem("duracionHidraMate") || "30"
+    );
+    if(!dias){
+        return;
+    }
+    localStorage.setItem(
+        "duracionHidraMate",
+        dias
+    );
+    location.reload();
+}
+function cambiarDuracionTurtleWax(){
+    const dias = prompt(
+        "Duración de Turtle Wax en días:",
+        localStorage.getItem("duracionTurtleWax") || "180"
+    );
+
+    if(!dias){
+        return;
+    }
+
+    localStorage.setItem(
+        "duracionTurtleWax",
+        dias
+    );
+
+    location.reload();
+}
+function cambiarKmAceite(){
+    const km = prompt(
+        "Intervalo de aceite en km:",
+        localStorage.getItem("kmObjetivoAceite") || "6000"
+    );
+    if(!km){
+        return;
+    }
+    localStorage.setItem(
+        "kmObjetivoAceite",
+        km
+    );
+    location.reload();
+}
+function cambiarKmCorrea(){
+    const km = prompt(
+        "Intervalo de correa en km:",
+        localStorage.getItem("kmObjetivoCorrea") || "24000"
+    );
+
+    if(!km){
+        return;
+    }
+
+    localStorage.setItem(
+        "kmObjetivoCorrea",
+        km
+    );
+    location.reload();
+}
+function cambiarKmDelantero(){
+    const km = prompt(
+        "Intervalo del neumático delantero en km:",
+        localStorage.getItem("kmObjetivoDelantero") || "12000"
+    );
+    if(!km){
+        return;
+    }
+    localStorage.setItem(
+        "kmObjetivoDelantero",
+        km
+    );
+    location.reload();
+}
+function cambiarKmTrasero(){
+    const km = prompt(
+        "Intervalo del neumático trasero en km:",
+        localStorage.getItem("kmObjetivoTrasero") || "12000"
+    );
+    if(!km){
+        return;
+    }
+    localStorage.setItem(
+        "kmObjetivoTrasero",
+        km
+    );
+    location.reload();
+}
+function actualizarKilometros(){ 
+    const km = prompt(
+        "Introduce los kilómetros actuales:"
+    );
+    if(!km){
+    return;
+}
+const kmActualGuardado =
+    Number(
+        localStorage.getItem("kmActual")
+    ) || 0;
+if(Number(km) < kmActualGuardado){
+    alert(
+        "Los kilómetros no pueden ser inferiores a los actuales (" +
+        kmActualGuardado +
+        " km)"
+    );
+    return;
+}
+const hoy =
+    new Date().toLocaleDateString("es-ES");
+    localStorage.setItem(
+    "kmActual",
+    km
+);
+localStorage.setItem(
+    "fechaKmActual",
+    hoy
+);
+location.reload();
+}
+
+
+
+
+
+
+window.onload = function(){  
+    console.log("ONLOAD OK");
+    const kmActual =
+        localStorage.getItem("kmActual");
+    const fechaKmActual =
+        localStorage.getItem("fechaKmActual");
+    if(kmActual){
+        const kmCabecera = document.getElementById("kilometrajeActualCabecera");
+        const fechaCabecera = document.getElementById("fechaKmCabecera");
+
+        if (kmCabecera) {
+            kmCabecera.innerHTML =
+                Number(kmActual).toLocaleString("es-ES") +
+                " km";
+        }
+
+        if (fechaCabecera && fechaKmActual) {
+            fechaCabecera.innerHTML =
+                "Actualizado: " + fechaKmActual;
+        }
+
+        const elementoFechaKm = document.getElementById("fechaKm");
+        if (elementoFechaKm) {
+            elementoFechaKm.innerHTML =
+                "📅 Última actualización: " +
+                fechaKmActual;
+        }
+    }
+    mostrarHistorial();
+    const ultimo =
+        localStorage.getItem("ultimoProducto");
+    if(ultimo){
+    let nombreMostrar = ultimo;
+    if(ultimo === "APC"){
+        nombreMostrar =
+            localStorage.getItem("nombreAPC")
+            || "Sisbrill 361 APC";
+    }
+    if(ultimo === "Maddox"){
+        nombreMostrar =
+            localStorage.getItem("nombreMaddox")
+            || "Maddox Detail";
+    }
+    if(ultimo === "SisbrillCar"){
+        nombreMostrar =
+            localStorage.getItem("nombreSisbrillCar")
+            || "Sisbrill Car";
+    }
+    if(ultimo === "HidraMate"){
+        nombreMostrar =
+            localStorage.getItem("nombreHidraMate")
+            || "Hidra Mate & Natural";
+    }
+    if(ultimo === "TurtleWax"){
+        nombreMostrar =
+            localStorage.getItem("nombreTurtleWax")
+            || "Turtle Wax Hybrid";
+    }
+    document.getElementById(
+        "ultimoProducto"
+    ).innerHTML =
+        "🧴 Último producto: " +
+        nombreMostrar;
+}
+    const mantenimiento =
+        localStorage.getItem(
+            "ultimoMantenimiento"
+        );
+   if(mantenimiento){
+    document.getElementById(
+    "ultimoMantenimiento"
+).innerHTML =
+    "<img src='icons/wrench.svg' class='iconTitulo' alt=''> Último mantenimiento: " +
+    mantenimiento;
+}
+    const duracionAPC =
+    localStorage.getItem("duracionAPC");
+if(duracionAPC){
+    document.getElementById(
+        "duracionAPCMostrar"
+    ).innerHTML =
+        "<span style='color:#ffffff'>🧼 " +
+        (localStorage.getItem("nombreAPC") || "Sisbrill 361 APC") +
+            "<br><span style='color:#7f93b7'>⏳ Duración: " +
+    duracionAPC +
+    " días</span>";
+}
+const duracionMaddox =
+    localStorage.getItem("duracionMaddox");
+if(duracionMaddox){
+    document.getElementById(
+        "duracionMaddoxMostrar"
+    ).innerHTML =
+       "<span style='color:#ffffff'>✨ " +
+(localStorage.getItem("nombreMaddox") || "Maddox Detail") +
+"</span><br><span style='color:#7f93b7'>⏳ Duración: " +
+duracionMaddox +
+" días</span>";
+}
+const duracionMaddoxTexto =
+    document.getElementById(
+        "duracionMaddoxTexto"
+    );
+if(duracionMaddoxTexto && duracionMaddox){
+    duracionMaddoxTexto.innerHTML =
+        "⏳ Duración: " +
+        duracionMaddox +
+        " días";
+}
+const duracionSisbrillCar =
+    localStorage.getItem(
+        "duracionSisbrillCar"
+    );
+if(duracionSisbrillCar){
+    document.getElementById(
+        "duracionSisbrillCarMostrar"
+    ).innerHTML =
+        "<span style='color:#ffffff'>🛡️ " +
+        (localStorage.getItem("nombreSisbrillCar") || "Sisbrill Car") +
+        "</span><br><span style='color:#7f93b7'>⏳ Duración: " +
+        duracionSisbrillCar +
+        " días</span>";
+}
+const duracionHidraMate =
+    localStorage.getItem(
+        "duracionHidraMate"
+    );
+if(duracionHidraMate){
+    document.getElementById(
+        "duracionHidraMateMostrar"
+    ).innerHTML =
+        "<span style='color:#ffffff'>🧴 " +
+        (localStorage.getItem("nombreHidraMate") || "Hidra Mate & Natural") +
+        "</span><br><span style='color:#7f93b7'>⏳ Duración: " +
+        duracionHidraMate +
+        " días</span>";
+}
+const duracionTurtleWax =
+    localStorage.getItem(
+        "duracionTurtleWax"
+    );
+if(duracionTurtleWax){
+    document.getElementById(
+    "duracionTurtleWaxMostrar"
+).innerHTML =
+    "<span style='color:#ffffff'>🏆 " +
+    (localStorage.getItem("nombreTurtleWax") || "Turtle Wax Hybrid") +
+    "</span><br><span style='color:#7f93b7'>⏳ Duración: " +
+    duracionTurtleWax +
+    " días</span>";
+}
+const kmObjetivoAceite =
+    localStorage.getItem(
+        "kmObjetivoAceite"
+    );
+if(kmObjetivoAceite){
+   document.getElementById(
+    "kmAceiteMostrar"
+).innerHTML =
+    "<span style='color:#ffffff'>🛢️ Intervalo aceite</span>" +
+    "<br><span style='color:#7f93b7'>⏳ " +
+    kmObjetivoAceite +
+    " km</span>";
+}
+const kmObjetivoCorrea =
+    localStorage.getItem(
+        "kmObjetivoCorrea"
+    );
+if(kmObjetivoCorrea){
+   document.getElementById(
+    "kmCorreaMostrar"
+).innerHTML =
+    "<span style='color:#ffffff'>⚙️ Intervalo correa</span>" +
+    "<br><span style='color:#7f93b7'>⏳ " +
+    kmObjetivoCorrea +
+    " km</span>";
+}
+const kmObjetivoDelantero =
+    localStorage.getItem(
+        "kmObjetivoDelantero"
+    );
+if(kmObjetivoDelantero){
+    document.getElementById(
+    "kmDelanteroMostrar"
+).innerHTML =
+    "<span style='color:#ffffff'>🛞 Intervalo neumático delantero</span>" +
+    "<br><span style='color:#7f93b7'>⏳ " +
+    kmObjetivoDelantero +
+    " km</span>";
+}
+const kmObjetivoTrasero =
+    localStorage.getItem(
+        "kmObjetivoTrasero"
+    );
+if(kmObjetivoTrasero){
+  document.getElementById(
+    "kmTraseroMostrar"
+).innerHTML =
+    "<span style='color:#ffffff'>🛞 Intervalo neumático trasero</span>" +
+    "<br><span style='color:#7f93b7'>⏳ " +
+    kmObjetivoTrasero +
+    " km</span>";
+}
+const duracionTurtleWaxTexto =
+    document.getElementById(
+        "duracionTurtleWaxTexto"
+    );
+if(
+    duracionTurtleWaxTexto &&
+    duracionTurtleWax
+){
+    duracionTurtleWaxTexto.innerHTML =
+        "⏳ Duración: " +
+        duracionTurtleWax +
+        " días";
+}
+const duracionHidraMateTexto =
+    document.getElementById(
+        "duracionHidraMateTexto"
+    );
+if(
+    duracionHidraMateTexto &&
+    duracionHidraMate
+){
+    duracionHidraMateTexto.innerHTML =
+        "⏳ Duración: " +
+        duracionHidraMate +
+        " días";
+}
+const duracionSisbrillCarTexto =
+    document.getElementById(
+        "duracionSisbrillCarTexto"
+    );
+if(
+    duracionSisbrillCarTexto &&
+    duracionSisbrillCar
+){
+    duracionSisbrillCarTexto.innerHTML =
+        "⏳ Duración: " +
+        duracionSisbrillCar +
+        " días";
+}
+const duracionAPCTexto =
+    document.getElementById(
+        "duracionAPCTexto"
+    );
+if(duracionAPCTexto && duracionAPC){
+    duracionAPCTexto.innerHTML =
+        "⏳ Duración: " +
+        duracionAPC +
+        " días";
+}
+    const nombreMoto =
+    localStorage.getItem("nombreMoto");
+if(nombreMoto){
+
+   document.getElementById(
+    "botonNombreMoto"
+).innerHTML =
+    "<span style='font-size:20px;font-weight:600;'>" +
+    nombreMoto +
+    "</span>";
+}
+    const nombreAPC =
+    localStorage.getItem("nombreAPC");
+if(nombreAPC){
+    document.getElementById(
+        "nombreAPC"
+    ).innerHTML =
+        "🧼 " + nombreAPC;
+}
+if(nombreAPC){
+    document.getElementById(
+        "nombreAPCMostrar"
+    ).innerHTML =
+        "<span style='color:#ffffff'>🧼 " + nombreAPC +
+        "</span><br><span style='color:#7f93b7'>📍 Plásticos, motor y limpieza general</span>";
+}
+const nombreMaddox =
+    localStorage.getItem("nombreMaddox");
+if(nombreMaddox){
+    document.getElementById(
+        "nombreMaddox"
+    ).innerHTML =
+        "✨ " + nombreMaddox;
+}
+if(nombreMaddox){
+    document.getElementById(
+        "nombreMaddoxMostrar"
+    ).innerHTML =
+        "<span style='color:#ffffff'>✨ " + nombreMaddox +
+        "</span><br><span style='color:#7f93b7'>📍 Acabado rápido y brillo</span>";
+}
+const nombreSisbrillCar =
+    localStorage.getItem("nombreSisbrillCar");
+if(nombreSisbrillCar){
+    document.getElementById(
+        "nombreSisbrillCar"
+    ).innerHTML =
+        "🛡️ " + nombreSisbrillCar;
+}
+if(nombreSisbrillCar){
+    document.getElementById(
+        "nombreSisbrillCarMostrar"
+    ).innerHTML =
+        "<span style='color:#ffffff'>🛡️ " + nombreSisbrillCar +
+        "</span><br><span style='color:#7f93b7'>📍 Pintura, carenados y protección exterior</span>";
+}
+const nombreHidraMate =
+    localStorage.getItem("nombreHidraMate");
+if(nombreHidraMate){
+    document.getElementById(
+        "nombreHidraMate"
+    ).innerHTML =
+        "🧴 " + nombreHidraMate;
+}
+if(nombreHidraMate){
+    document.getElementById(
+        "nombreHidraMateMostrar"
+    ).innerHTML =
+        "<span style='color:#ffffff'>🧴 " + nombreHidraMate +
+        "</span><br><span style='color:#7f93b7'>📍 Plásticos mate y gomas</span>";
+}
+const nombreTurtleWax =
+    localStorage.getItem("nombreTurtleWax");
+if(nombreTurtleWax){
+    document.getElementById(
+        "nombreTurtleWax"
+    ).innerHTML =
+        "🏆 " + nombreTurtleWax;
+}
+if(nombreTurtleWax){
+    document.getElementById(
+        "nombreTurtleWaxMostrar"
+    ).innerHTML =
+        "<span style='color:#ffffff'>🏆 " + nombreTurtleWax +
+        "</span><br><span style='color:#7f93b7'>📍 Sellado y protección hidrofóbica</span>";
+}
+    const matriculaMoto =
+    localStorage.getItem("matriculaMoto");
+if(matriculaMoto){
+   const placa = matriculaMoto.toUpperCase().replace(/\s+/g, "");
+   const numeros = (placa.match(/\d+/g)?.join("") || "0000").slice(-4).padStart(4, "0");
+   const letras = (placa.match(/[A-Z]+/g)?.join("") || "AAA").slice(-3).padStart(3, "A");
+
+   const matriculaNumeros = document.getElementById("matriculaNumeros");
+   const matriculaLetras = document.getElementById("matriculaLetras");
+
+   if(matriculaNumeros){
+       matriculaNumeros.textContent = numeros;
+   }
+   if(matriculaLetras){
+       matriculaLetras.textContent = letras;
+   }
+
+ document.getElementById(
+    "botonMatricula"
+).innerHTML =
+    "<span style='font-size:18px;'>" +
+    matriculaMoto +
+    "</span>";
+}
+};
+    const productos = [
+        "APC",
+        "Maddox",
+        "SisbrillCar",
+        "HidraMate",
+        "TurtleWax"
+    ];
+    productos.forEach(nombre => {       
+        const fecha =
+            localStorage.getItem(
+                "fecha" + nombre
+            );
+        const elemento =
+            document.getElementById(
+                "fecha" + nombre
+            );
+     if(fecha && elemento){
+    const dias =
+        diasTranscurridos(fecha);
+    elemento.innerHTML =
+        "✅ Aplicado: " + fecha +
+        "<br>⏳ Hace " +
+        dias +
+        " días";
+    if(
+    nombre === "APC" ||
+    nombre === "Maddox" ||
+    nombre === "SisbrillCar" ||
+    nombre === "HidraMate" ||
+    nombre === "TurtleWax"
+){
+    let frecuencia =
+    Number(
+        localStorage.getItem("duracionAPC")
+    ) || 60;
+    if(nombre === "Maddox"){
+    frecuencia =
+        Number(
+            localStorage.getItem(
+                "duracionMaddox"
+            )
+        ) || 7;
+}
+    if(nombre === "SisbrillCar"){
+    frecuencia =
+        Number(
+            localStorage.getItem(
+                "duracionSisbrillCar"
+            )
+        ) || 30;
+}
+    if(nombre === "HidraMate"){
+    frecuencia =
+        Number(
+            localStorage.getItem(
+                "duracionHidraMate"
+            )
+        ) || 30;
+}
+if(nombre === "TurtleWax"){
+    frecuencia =
+        Number(
+            localStorage.getItem(
+                "duracionTurtleWax"
+            )
+        ) || 180;
+}        
+    const restantes =
+        frecuencia - dias;
+    const fechaAplicacion =
+        new Date(
+            fecha.split("/")[2],
+            fecha.split("/")[1] - 1,
+            fecha.split("/")[0]
+        );
+const proximaAplicacion =
+    new Date(fechaAplicacion);
+proximaAplicacion.setDate(
+    proximaAplicacion.getDate() +
+    frecuencia
+);
+        const tarjetaProducto =
+    document.getElementById(
+        "producto" + nombre
+    );
+
+if(tarjetaProducto){
+    if(restantes < 0){
+        tarjetaProducto.className =
+            "producto producto-rojo";
+    }
+    else if(
+        restantes <=
+        (frecuencia * 0.20)
+    ){
+        tarjetaProducto.className =
+            "producto producto-amarillo";
+    }
+    else{
+        tarjetaProducto.className =
+            "producto producto-verde";
+    }
+}
+    if(restantes > (frecuencia * 0.20)){
+    elemento.innerHTML +=
+        "<br>🟢 Restan " +
+        restantes +
+        " días";
+}
+else if(restantes >= 0){
+    elemento.innerHTML +=
+        "<br>🟡 Restan " +
+        restantes +
+        " días";
+}
+else{
+    elemento.innerHTML +=
+        "<br>🔴 Vencido hace " +
+        Math.abs(restantes) +
+        " días";
+}
+elemento.innerHTML +=
+    "<br>📅 Próxima aplicación: " +
+    proximaAplicacion.toLocaleDateString("es-ES");
+}
+}
+    });     
+// ITV
+let resumenMantenimiento = "";
+const fechaITV =
+    localStorage.getItem("fechaITV");
+const vencimientoITV =
+    localStorage.getItem("vencimientoITV");
+const diasITV =
+    diasRestantes(vencimientoITV);
+    let porcentajeITV = 0;
+if(fechaITV && vencimientoITV){
+    const inicio = new Date(
+        fechaITV.split("/")[2],
+        fechaITV.split("/")[1]-1,
+        fechaITV.split("/")[0]
+    );
+    const fin = new Date(
+        vencimientoITV.split("/")[2],
+        vencimientoITV.split("/")[1]-1,
+        vencimientoITV.split("/")[0]
+    );
+    const hoy = new Date();
+    const totalDias =
+        (fin - inicio) /
+        (1000 * 60 * 60 * 24);
+    const diasConsumidos =
+        (hoy - inicio) /
+        (1000 * 60 * 60 * 24);
+    porcentajeITV =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                100 -
+                ((diasConsumidos / totalDias) * 100)
+            )
+        );
+}
+if(fechaITV){
+    resumenMantenimiento +=
+        "🏍️ Fecha compra: 20/05/2026" +
+        "<br>";
+    const estadoITVVisual =
+    obtenerEstadoVisual(
+        porcentajeITV
+    );    
+    if(vencimientoITV){
+        resumenMantenimiento +=
+            "📅 Primera ITV: " +
+            vencimientoITV +
+            "<br>";
+        const claseITV =
+    obtenerClaseDias(diasITV); 
+    resumenMantenimiento +=
+    '<span class="' + claseITV + '">' +
+    "⏳ ITV: " +
+    diasITV +
+    " días restantes" +
+    '</span><br>';
+resumenMantenimiento +=
+    estadoITVVisual +
+    "<br><br>";
+    }  
+      const barraITV =
+    document.getElementById("progresoITV");
+if(barraITV){
+    barraITV.style.width =
+        porcentajeITV + "%";
+    if(porcentajeITV > 60){
+        barraITV.style.background =
+            "#22c55e";
+    }
+    else if(porcentajeITV > 30){
+        barraITV.style.background =
+            "#f59e0b";
+    }
+    else{
+        barraITV.style.background =
+            "#ef4444";
+    }
+}
+const estadoITV =
+    document.getElementById("estadoITV");    
+if(estadoITV){
+    if(porcentajeITV > 60){
+        estadoITV.innerHTML =
+            "🟢 ITV en vigor";
+    }
+    else if(porcentajeITV > 30){
+        estadoITV.innerHTML =
+            "🟠 ITV próxima revisión";
+    }
+    else{
+        estadoITV.innerHTML =
+            "🔴 ITV próxima a caducar";
+    }
+}
+     const textoITV =
+    document.getElementById("textoITV");
+if(textoITV){
+    textoITV.innerHTML =
+        Math.round(porcentajeITV) +
+        "%";
+}   
+  }   
+// Aceite
+const fechaAceite =
+    localStorage.getItem("fechaAceite");
+const kmAceite =
+    Number(
+        localStorage.getItem("kmAceite")
+    );
+const kmObjetivoAceite =
+    Number(
+        localStorage.getItem("kmObjetivoAceite")
+    ) || 6000;
+const kmActualAceite =
+    Number(localStorage.getItem("kmActual")) || 0;
+
+const kmRecorridosAceite =
+    Math.max(
+        0,
+        kmActualAceite - kmAceite
+    );
+const kmRestantes =
+    Math.max(
+        0,
+        kmObjetivoAceite - kmRecorridosAceite
+    );
+let porcentajeAceite =
+    (kmRestantes / kmObjetivoAceite) * 100;
+    const barraAceite =
+    document.getElementById(
+        "progresoAceite"
+    );
+if(barraAceite){
+    barraAceite.style.width =
+        porcentajeAceite + "%";
+    if(porcentajeAceite > 60){
+        barraAceite.style.background =
+            "#22c55e";
+    }
+    else if(porcentajeAceite > 30){
+        barraAceite.style.background =
+            "#f59e0b";
+    }
+    else{
+        barraAceite.style.background =
+            "#ef4444";
+    }
+}
+const textoAceite =
+    document.getElementById(
+        "textoAceite"
+    );
+if(textoAceite){
+    textoAceite.innerHTML =
+    Math.round(
+        porcentajeAceite
+    ) + "%";
+}
+const estadoAceite =
+    document.getElementById(
+        "estadoAceite"    );
+if(estadoAceite){
+    if(porcentajeAceite > 60){
+        estadoAceite.innerHTML =
+            "🟢 Aceite ";
+    }
+    else if(porcentajeAceite > 30){
+        estadoAceite.innerHTML =
+            "🟠 Revisar aceite";
+    }
+    else{
+        estadoAceite.innerHTML =
+            "🔴 Cambio recomendado";
+    }
+}
+if(fechaAceite){
+const proximoCambioAceite =
+    kmAceite + kmObjetivoAceite;
+    const estadoAceiteVisual =
+    obtenerEstadoVisual(
+        porcentajeAceite
+    );
+    resumenMantenimiento +=
+        "🛢️ Último aceite: " +
+        fechaAceite +
+        "<br>";
+    resumenMantenimiento +=
+        "🏍️ Km cambio: " +
+        kmAceite +
+        " km<br>";
+    resumenMantenimiento +=
+    "📍 Próximo cambio: " +
+proximoCambioAceite +
+" km<br>";
+    let claseAceite = "verde";
+if(kmRestantes <= 0){
+    claseAceite = "rojo";
+}
+else if(kmRestantes <= 2000){
+    claseAceite = "naranja";
+}
+resumenMantenimiento +=
+    '<span class="' + claseAceite + '">' +
+    "⛽ Restan " +
+    kmRestantes +
+    " km" +
+    "</span><br>";
+resumenMantenimiento +=
+    estadoAceiteVisual +
+    "<br><br>";
+}    
+// Correa
+const kmCorrea =
+    Number(
+        localStorage.getItem("kmCorrea")
+    ) || 0;
+const kmActualCorrea =
+    Number(
+        localStorage.getItem("kmActual")
+    ) || 0;
+const kmRecorridosCorrea =
+    Math.max(
+        0,
+        kmActualCorrea - kmCorrea
+    );
+const kmRestantesCorrea =
+    Math.max(
+        0,
+        (Number(localStorage.getItem("kmObjetivoCorrea")) || 24000)
+        -
+        kmRecorridosCorrea
+    );
+const fechaCorrea =
+    localStorage.getItem("fechaCorrea");
+const vencimientoCorrea =
+    localStorage.getItem("vencimientoCorrea");
+const diasCorrea =
+    diasRestantes(vencimientoCorrea);
+    const kmObjetivoCorrea =
+    Number(
+        localStorage.getItem("kmObjetivoCorrea")
+    ) || 24000;
+let porcentajeCorrea =
+    (kmRestantesCorrea / kmObjetivoCorrea) * 100;
+     porcentajeCorrea =
+    Math.max(
+        0,
+        Math.min(
+            100,
+            porcentajeCorrea
+        )
+    );   
+    const barraCorrea =
+    document.getElementById("progresoCorrea");
+if(barraCorrea){
+    barraCorrea.style.width =
+        porcentajeCorrea + "%";
+    if(porcentajeCorrea > 60){
+        barraCorrea.style.background =
+            "#22c55e";
+    }
+    else if(porcentajeCorrea > 30){
+        barraCorrea.style.background =
+            "#f59e0b";
+    }
+    else{
+        barraCorrea.style.background =
+            "#ef4444";
+    }
+}
+const estadoCorrea =
+    document.getElementById("estadoCorrea");
+if(estadoCorrea){
+    if(porcentajeCorrea > 60){
+        estadoCorrea.innerHTML =
+            "🟢 Correa";
+    }
+    else if(porcentajeCorrea > 30){
+        estadoCorrea.innerHTML =
+            "🟠 Revisar correa";
+    }
+    else{
+        estadoCorrea.innerHTML =
+            "🔴 Cambio recomendado";
+    }
+}
+const textoCorrea =
+    document.getElementById("textoCorrea");
+if(textoCorrea){
+    textoCorrea.innerHTML =
+    Math.round(porcentajeCorrea) +
+    "%";
+}
+if(fechaCorrea){
+const kmObjetivoCorrea =
+    Number(
+        localStorage.getItem("kmObjetivoCorrea")
+    ) || 24000;
+const proximoCambioCorrea =
+    kmCorrea + kmObjetivoCorrea;
+    const estadoCorreaVisual =
+    obtenerEstadoVisual(
+        porcentajeCorrea
+    );
+    resumenMantenimiento +=
+        "⚙️ Última correa: " +
+        fechaCorrea +
+        "<br>";       
+resumenMantenimiento +=
+    "📏 Recorridos: " +
+    kmRecorridosCorrea +
+    " km<br>";
+resumenMantenimiento +=
+    "📉 Restan: " +
+    kmRestantesCorrea +
+    " km<br>";
+        resumenMantenimiento +=
+    "🏍️ Km cambio: " +
+    kmCorrea +
+    " km<br>";
+    resumenMantenimiento +=
+    "📍 Próximo cambio: " +
+    proximoCambioCorrea +
+    " km<br>";
+    if(vencimientoCorrea){
+        resumenMantenimiento +=
+            "📅 Vence: " +
+            vencimientoCorrea +
+            "<br>";
+        const claseCorrea =
+            obtenerClaseDias(diasCorrea);
+        resumenMantenimiento +=
+    '<span class="' + claseCorrea + '">' +
+    "⏳ Correa: " +
+    diasCorrea +
+    " días restantes" +
+    '</span><br>';
+resumenMantenimiento +=
+    estadoCorreaVisual +
+    "<br><br>";
+    }
+   }
+   // Neumático delantero
+  
+const fechaNeumaticoDelantero =
+    localStorage.getItem(
+        "fechaNeumaticoDelantero"
+    );
+const kmNeumaticoDelantero =
+    Number(
+        localStorage.getItem(
+            "kmNeumaticoDelantero"
+        )
+    );
+const kmActualDelantero =
+    Number(
+        localStorage.getItem(
+            "kmActual"
+        )
+    ) || 0;
+const kmRecorridosDelantero =
+    Math.max(
+        0,
+        kmActualDelantero -
+        kmNeumaticoDelantero
+    );
+const kmObjetivoDelantero =
+    Number(
+        localStorage.getItem("kmObjetivoDelantero")
+    ) || 12000;
+const kmRestantesDelantero =
+    Math.min(
+        kmObjetivoDelantero,
+        Math.max(
+            0,
+            kmObjetivoDelantero - kmRecorridosDelantero
+        )
+    );
+ let porcentajeDelantero =
+    (kmRestantesDelantero / kmObjetivoDelantero) * 100;
+porcentajeDelantero =
+    Math.max(
+        0,
+        Math.min(
+            100,
+            porcentajeDelantero
+        )
+    );
+const barraDelantero =
+    document.getElementById("progresoDelantero");
+if(barraDelantero){
+    barraDelantero.style.width =
+        porcentajeDelantero + "%";
+
+    if(porcentajeDelantero > 60){
+        barraDelantero.style.background =
+            "#22c55e";
+    }
+    else if(porcentajeDelantero > 30){
+        barraDelantero.style.background =
+            "#f59e0b";
+    }
+    else{
+        barraDelantero.style.background =
+            "#ef4444";
+    }
+}
+const estadoDelantero =
+    document.getElementById("estadoDelantero");
+if(estadoDelantero){
+    if(porcentajeDelantero > 60){
+        estadoDelantero.innerHTML =
+            "🟢 Neumático delantero ";
+    }
+    else if(porcentajeDelantero > 30){
+        estadoDelantero.innerHTML =
+            "🟠 Revisar delantero";
+    }
+    else{
+        estadoDelantero.innerHTML =
+            "🔴 Cambio recomendado";
+    }
+}
+const textoDelantero =
+    document.getElementById("textoDelantero");
+if(textoDelantero){
+    textoDelantero.innerHTML =
+        Math.round(porcentajeDelantero) +
+        "%";
+}
+let claseDelantero = "verde";
+let mensajeDelantero = "";
+if(kmRestantesDelantero <= 0){
+    claseDelantero = "rojo";
+    mensajeDelantero =
+        "🔴 Cambio recomendado";
+}
+else if(kmRestantesDelantero <= 4000){
+    claseDelantero = "naranja";
+    mensajeDelantero =
+        "🟠 Revisar desgaste pronto (" +
+        kmRestantesDelantero +
+        " km restantes)";
+}
+else{
+    mensajeDelantero =
+        "🟢 Buen estado (" +
+        kmRestantesDelantero +
+        " km restantes)";
+}
+if(fechaNeumaticoDelantero){
+const proximoCambioNeumaticoDelantero =
+    kmNeumaticoDelantero + kmObjetivoDelantero;
+const estadoDelanteroVisual =
+    obtenerEstadoVisual(
+        porcentajeDelantero
+    );
+    resumenMantenimiento +=
+        "🛞 Delantero<br>";
+        resumenMantenimiento +=
+        "📅 Montado: " +
+        fechaNeumaticoDelantero +
+        "<br>";   
+    resumenMantenimiento +=
+        "🏍️ Km montaje: " +
+        kmNeumaticoDelantero +
+        " km<br>";
+        resumenMantenimiento +=
+    "📍 Próximo cambio: " +
+    proximoCambioNeumaticoDelantero +
+    " km<br>";
+    resumenMantenimiento +=
+        "📏 Recorridos: " +
+        kmRecorridosDelantero +
+        " km<br>";
+    resumenMantenimiento +=
+    '<span class="' +
+    claseDelantero +
+    '">' +
+    mensajeDelantero +
+    '</span><br>';
+resumenMantenimiento +=
+    estadoDelanteroVisual +
+    "<br><br>";
+}
+
+
+// Neumático trasero
+
+const fechaNeumaticoTrasero =
+    localStorage.getItem(
+        "fechaNeumaticoTrasero"
+    );
+const kmNeumaticoTrasero =
+    Number(
+        localStorage.getItem(
+            "kmNeumaticoTrasero"
+        )
+    );
+const kmActualTrasero =
+    Number(
+        localStorage.getItem(
+            "kmActual"
+        )
+    ) || 0;
+const kmRecorridosTrasero =
+    Math.max(
+0,
+kmActualTrasero -
+kmNeumaticoTrasero
+);
+const kmObjetivoTrasero =
+    Number(
+        localStorage.getItem("kmObjetivoTrasero")
+    ) || 12000;
+
+const kmRestantesTrasero =
+    Math.min(
+        kmObjetivoTrasero,
+        Math.max(
+            0,
+            kmObjetivoTrasero -
+            kmRecorridosTrasero
+        )
+    );
+    let porcentajeTrasero =
+    (kmRestantesTrasero / kmObjetivoTrasero) * 100;
+porcentajeTrasero =
+    Math.max(
+        0,
+        Math.min(
+            100,
+            porcentajeTrasero
+        )
+    );
+const barraTrasero =
+    document.getElementById("progresoTrasero");
+if(barraTrasero){
+    barraTrasero.style.width =
+        porcentajeTrasero + "%";
+    if(porcentajeTrasero > 60){
+        barraTrasero.style.background =
+            "#22c55e";
+    }
+    else if(porcentajeTrasero > 30){
+        barraTrasero.style.background =
+            "#f59e0b";
+    }
+    else{
+        barraTrasero.style.background =
+            "#ef4444";
+    }
+}
+const estadoTrasero =
+    document.getElementById("estadoTrasero");
+if(estadoTrasero){
+    if(porcentajeTrasero > 60){
+        estadoTrasero.innerHTML =
+            "🟢 Neumático trasero ";
+    }
+    else if(porcentajeTrasero > 30){
+        estadoTrasero.innerHTML =
+            "🟠 Revisar trasero";
+    }
+    else{
+        estadoTrasero.innerHTML =
+            "🔴 Cambio recomendado";
+    }
+}
+const textoTrasero =
+    document.getElementById("textoTrasero");
+if(textoTrasero){
+    textoTrasero.innerHTML =
+        Math.round(porcentajeTrasero) +
+        "%";
+}
+let claseTrasero = "verde";
+let mensajeTrasero = "";
+if(kmRestantesTrasero <= 0){
+    claseTrasero = "rojo";
+    mensajeTrasero =
+        "🔴 Cambio recomendado";
+}
+else if(kmRestantesTrasero <= 4000){
+    claseTrasero = "naranja";
+    mensajeTrasero =
+        "🟠 Revisar desgaste pronto (" +
+        kmRestantesTrasero +
+        " km restantes)";}
+else{
+    mensajeTrasero =
+        "🟢 Buen estado (" +
+        kmRestantesTrasero +
+        " km restantes)";
+}
+if(fechaNeumaticoTrasero){
+const proximoCambioNeumaticoTrasero =
+    kmNeumaticoTrasero + kmObjetivoTrasero;
+ const estadoTraseroVisual =
+    obtenerEstadoVisual(
+        porcentajeTrasero
+    );
+    resumenMantenimiento +=
+        "🛞 Trasero<br>";
+        resumenMantenimiento +=
+        "📅 Montado: " +
+        fechaNeumaticoTrasero +
+        "<br>";
+    resumenMantenimiento +=
+        "🏍️ Km montaje: " +
+        kmNeumaticoTrasero +
+        " km<br>";
+        resumenMantenimiento +=
+    "📍 Próximo cambio: " +
+    proximoCambioNeumaticoTrasero +
+    " km<br>";
+    resumenMantenimiento +=
+        "📏 Recorridos: " +
+        kmRecorridosTrasero +
+        " km<br>";
+    resumenMantenimiento +=
+    '<span class="' +
+    claseTrasero +
+    '">' +
+    mensajeTrasero +
+    '</span><br>';
+resumenMantenimiento +=
+    estadoTraseroVisual +
+    "<br><br>";
+}
+document.getElementById(
+    "estadoMantenimiento"
+).innerHTML =
+    resumenMantenimiento;
+  const vencimientos = {
+    APC: Number(localStorage.getItem("duracionAPC")) || 60,
+    Maddox: Number(localStorage.getItem("duracionMaddox")) || 7,
+    SisbrillCar: Number(localStorage.getItem("duracionSisbrillCar")) || 30,
+    HidraMate: Number(localStorage.getItem("duracionHidraMate")) || 30,
+    TurtleWax: Number(localStorage.getItem("duracionTurtleWax")) || 180
+};
+let verdes = 0;
+let amarillos = 0;
+let rojos = 0;
+let resumen = "";
+let listaAmarillos = [];
+let listaRojos = [];
+for(const producto in vencimientos){
+    const fecha =
+        localStorage.getItem(
+            "fecha" + producto
+        );
+    resumen +=
+        producto +
+        ": " +
+        estadoVencimiento(
+            fecha,
+            vencimientos[producto]
+        ) +
+        "<br>";const estado =
+    estadoVencimiento(
+        fecha,
+        vencimientos[producto]
+    );
+if(estado.includes("🟢")){
+    verdes++;
+}
+else if(estado.includes("🟡")){
+    amarillos++;
+    listaAmarillos.push(producto);
+}
+else if(estado.includes("🔴")){
+    rojos++;
+    listaRojos.push(producto);
+}
+}
+const estadoProductos =
+    document.getElementById(
+        "estadoProductos"
+    );
+if(estadoProductos){
+    estadoProductos.innerHTML =
+        resumen;
+}
+const resumenLimpieza =
+    document.getElementById(
+        "resumenLimpieza"
+    );
+if(resumenLimpieza){
+    resumenLimpieza.innerHTML =
+        "📊 <strong>Estado general</strong><br><br>" +
+        "🟢 " + verdes + " al día<br>" +
+        "🟡 " + amarillos + " próximos a vencer<br>" +
+        "🔴 " + rojos + " vencidos";
+}
+const avisosMoto =
+    document.getElementById(
+        "avisosMoto"
+    );
+if(avisosMoto){
+    let avisos = "";
+    if(porcentajeAceite <= 30){
+        avisos +=
+            "🔴 Cambio de aceite recomendado<br>" +
+            "Restan " + kmRestantes + " km<br><br>";
+    }
+    else if(porcentajeAceite <= 60){
+        avisos +=
+            "🟠 Revisar aceite<br>" +
+            "Restan " + kmRestantes + " km<br><br>";
+    }
+    if(porcentajeCorrea <= 30){
+    avisos +=
+        "🔴 Cambio de correa recomendado<br>" +
+        "Restan " + kmRestantesCorrea + " km<br><br>";
+}
+else if(porcentajeCorrea <= 60){
+    avisos +=
+        "🟠 Revisar correa CVT<br>" +
+        "Restan " + kmRestantesCorrea + " km<br><br>";
+}
+if(porcentajeTrasero <= 30){
+    avisos +=
+        "🔴 Cambio de neumático trasero recomendado<br>" +
+        "Restan " + kmRestantesTrasero + " km<br><br>";
+}
+else if(porcentajeTrasero <= 60){
+    avisos +=
+        "🟠 Revisar neumático trasero<br>" +
+        "Restan " + kmRestantesTrasero + " km<br><br>";
+}   if(porcentajeITV <= 30){
+    avisos +=
+        "🔴 ITV próxima a caducar<br>" +
+        "Restan " + diasITV + " días<br><br>";
+}
+else if(porcentajeITV <= 60){
+    avisos +=
+        "🟠 Revisar ITV<br>" +
+        "Restan " + diasITV + " días<br><br>";
+}
+    if(porcentajeDelantero <= 30){
+    avisos +=
+        "🔴 Cambio de neumático delantero recomendado<br>" +
+        "Restan " + kmRestantesDelantero + " km<br><br>";
+}
+else if(porcentajeDelantero <= 60){
+    avisos +=
+        "🟠 Revisar neumático delantero<br>" +
+        "Restan " + kmRestantesDelantero + " km<br><br>";
+}
+   /* if(rojos > 0){
+        avisos +=
+            "🔴 " +
+            rojos +
+            (rojos === 1
+                ? " producto vencido"
+                : " productos vencidos") +
+            "<br>";
+        listaRojos.forEach(producto => {
+            const nombreMostrar =
+                localStorage.getItem("nombre" + producto)
+                || producto;
+            avisos +=
+                "&nbsp;&nbsp;• " +
+                nombreMostrar +
+                "<br>";
+        });
+        avisos += "<br>";
+    }
+    if(amarillos > 0){
+        avisos +=
+            "🟡 " +
+            amarillos +
+            (amarillos === 1
+                ? " producto próximo a vencer"
+                : " productos próximos a vencer") +
+            "<br>";
+        listaAmarillos.forEach(producto => {
+            const nombreMostrar =
+                localStorage.getItem("nombre" + producto)
+                || producto;
+            avisos +=
+                "&nbsp;&nbsp;• " +
+                nombreMostrar +
+                "<br>";
+        });
+        avisos += "<br>";
+    }*/
+    if(avisos === ""){
+        avisos =
+            "✅ Todo al día<br>" +
+            "Sin avisos pendientes";
+    }
+    avisosMoto.innerHTML =
+        avisos.trim();
+}
+const ultimoProductoLimpieza =
+    document.getElementById(
+        "ultimoProductoLimpieza"
+    );
+const ultimoProductoGuardado =
+    localStorage.getItem(
+        "ultimoProducto"
+    );
+if(
+    ultimoProductoLimpieza &&
+    ultimoProductoGuardado
+){
+    let nombreMostrar =
+        ultimoProductoGuardado;
+    if(ultimoProductoGuardado === "APC"){
+        nombreMostrar =
+            localStorage.getItem("nombreAPC")
+            || "Sisbrill 361 APC";
+    }
+    if(ultimoProductoGuardado === "Maddox"){
+        nombreMostrar =
+            localStorage.getItem("nombreMaddox")
+            || "Maddox Detail";
+    }
+    if(ultimoProductoGuardado === "SisbrillCar"){
+        nombreMostrar =
+            localStorage.getItem("nombreSisbrillCar")
+            || "Sisbrill Car";
+    }
+    if(ultimoProductoGuardado === "HidraMate"){
+        nombreMostrar =
+            localStorage.getItem("nombreHidraMate")
+            || "Hidra Mate & Natural";
+    }
+    if(ultimoProductoGuardado === "TurtleWax"){
+        nombreMostrar =
+            localStorage.getItem("nombreTurtleWax")
+            || "Turtle Wax Hybrid";
+    }
+    ultimoProductoLimpieza.innerHTML =
+        "🧴 Último aplicado: " +
+        nombreMostrar;
+}
+function activarMenu(boton){
+    document.querySelectorAll(".menuBtn").forEach(btn=>{
+        btn.classList.remove("activo");
+    });
+    boton.classList.add("activo");
+}
+function mostrarPantalla(id){
+    document.querySelectorAll(".pantalla").forEach(p=>{
+        p.style.display = "none";
+    });
+    const pantalla =
+        document.getElementById(id);
+
+    if(pantalla){
+        pantalla.style.display = "block";
+    }
+    console.log("MENU OK");
+}    
+window.addEventListener("load", function(){
+    document.getElementById("btnInicio").onclick=function(){
+        activarMenu(this);
+        mostrarPantalla("inicio");
+    };
+    document.getElementById("btnLimpieza").onclick=function(){
+        activarMenu(this);
+        mostrarPantalla("limpieza");
+    };
+    document.getElementById("btnMant").onclick=function(){
+        activarMenu(this);
+        mostrarPantalla("mantenimiento");
+    };
+    document.getElementById("btnHist").onclick=function(){
+    activarMenu(this);
+    mostrarPantalla("historial");
+};
+    document.getElementById("btnAjustes").onclick=function(){
+    activarMenu(this);
+    mostrarPantalla("ajustes");
+    };   
+});
+
+</script>
+<div class="menuInferior">
+
+<div id="btnInicio" class="menuBtn activo">
+    <span><img src="icons/house.svg" alt=""></span>
+    Inicio
+</div>
+
+<div id="btnLimpieza" class="menuBtn">
+    <span><img src="icons/droplets.svg" alt=""></span>
+    Limpieza
+</div>
+
+<div id="btnMant" class="menuBtn">
+    <span><img src="icons/wrench.svg" alt=""></span>
+    Mant.
+</div>
+
+<div id="btnHist" class="menuBtn">
+    <span><img src="icons/rotate-ccw-clock.svg" alt=""></span>
+    Hist.
+</div>
+
+<div id="btnAjustes" class="menuBtn">
+    <span><img src="icons/settings.svg" alt=""></span>
+    Ajustes
+</div>
+
+
+
+</body>
+</html>
